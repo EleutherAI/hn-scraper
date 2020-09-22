@@ -4,7 +4,7 @@ A scraper for Hacker News (duh)
 
 
 ## Usage:
-run hn_scraper.py (modify the main functino call to change the end_id to parse to)
+run hn_scraper.py (modify the main function call to change the end_id to parse to)
 
 ## Filtering Details
 
