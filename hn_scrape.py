@@ -38,9 +38,9 @@ class MyPool(multiprocessing.pool.Pool):
 # Story Functions
 
 def get_check_story(id):
-    print(id)
+    #print(id)
     if path.exists(''.join(["donev2/",str(id)])):
-        print("already did" + ''.join(["donev2/",str(id)]))
+        #print("already did" + ''.join(["donev2/",str(id)]))
         return "already did"
     
     with open(''.join(['donev2/',str(id)]),'w') as donefile:
@@ -66,19 +66,19 @@ def get_check_story(id):
             pass
     try:
         if item['type'] != 'story': 
-            print('story')
+            #print('story')
             return "not counted (not story)"
         if item['score'] < SCORE_THRESH:
-            print('score')
+            #print('score')
             return "not counted (score too low)"
         if item['descendants'] < DESC_THRESH:
-            print('len')
+            #print('len')
             return "not counted (num descenants too low)"
     except TypeError:
-        print('type')
+        #print('type')
         return "not counted (typeerror)" 
     except KeyError:
-        print('key')
+        #print('key')
         return "not counted (keyerror)"
     return parse_story(id,item)
 
@@ -217,7 +217,8 @@ def main(end_id, num_threads):
     
     with open('story_list','r') as id_file:
         indlist = id_file.readline().strip("]").strip("[").split(', ')
-    resultlist = pool.map(get_check_story, indlist)
+    resultlist = list(tqdm(pool.imap(get_check_story, indlist), total=len(indlist)))
+    #resultlist = pool.map(get_check_story, indlist)
     pool.close()
     with open('resultlist','w') as result:
         result.write(str(resultlist))
